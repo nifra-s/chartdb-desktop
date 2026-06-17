@@ -26,4 +26,14 @@
 
     .nodrag {
     }
+
+    /* Allows dragging window from empty navbar background spots */
+    .webkit-drag {
+    -webkit-app-region: drag;
+    }
+
+    /* Explicitly overrides the drag overlay so buttons can be clicked */
+    .interactive-element {
+    -webkit-app-region: no-drag !important;
+    }
 }
