@@ -2,8 +2,6 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 import electronServe from 'electron-serve';
 import path from 'path';
 import { fileURLToPath } from 'url';
-// 1. IMPORT SQUIRREL INSTEAD OF USING REQUIRE
-import squirrelStartup from 'electron-squirrel-startup';
 
 // 2. IMPORT DIRNAME FROM PATH
 import { dirname } from 'path';
@@ -25,7 +23,9 @@ async function createWindow() {
         minHeight: 600,
         frame: false,
         titleBarStyle: 'hidden',
-        icon: path.join(__dirname, 'src/assets/logo-2.png'),
+        icon: app.isPackaged
+            ? path.join(process.resourcesPath, 'icon.ico')
+            : path.join(__dirname, 'src/assets/logo-2.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: false,
@@ -55,9 +55,6 @@ ipcMain.on('window-maximize', () => {
 ipcMain.on('window-close', () => {
     win.close();
 });
-
-// 3. USE THE IMPORTED SQUIRREL VARIABLE HERE
-if (squirrelStartup) app.quit();
 
 app.whenReady().then(() => {
     createWindow();

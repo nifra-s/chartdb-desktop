@@ -138,6 +138,59 @@ VITE_OPENAI_API_ENDPOINT=http://localhost:8000/v1
 VITE_LLM_MODEL_NAME=Qwen/Qwen2.5-32B-Instruct-AWQ
 ```
 
+## 🖥️ Desktop App
+
+ChartDB is also available as a native Windows desktop application using Electron.
+
+### Features
+
+- **Fully offline** — all data stored locally via IndexedDB, no cloud required
+- **Native window** — frameless window with custom title bar
+- **NSIS installer** — standard Windows setup with desktop shortcut, custom install path, and admin elevation
+- **Auto-update ready** — built on electron-builder infrastructure
+
+### Development
+
+```bash
+# Requirements: Node.js 22 LTS
+npm install
+npm run dev      # Start Vite dev server
+npm run start    # Launch Electron app with hot-reload
+```
+
+### Build Windows Installer
+
+```bash
+npm run make
+```
+
+The installer is created at `out/make/nsis/x64/chartdb-desktop Setup <version>.exe`.
+
+**Installer features:**
+- Installs to `C:\Program Files (x86)\ChartDB` by default (customizable)
+- Desktop shortcut with app icon
+- Runs as administrator (per-machine install)
+- "Launch ChartDB" checkbox on finish
+
+### Database Reset
+
+The app stores diagrams locally using IndexedDB. To reset the database before building (ensures a clean distributed app):
+
+```bash
+npm run db:reset
+```
+
+This runs automatically before `npm run package` and `npm run make`.
+
+### Clean Build
+
+To remove build caches and ensure the smallest installer size:
+
+```bash
+npm run clean   # Removes .vite cache, stats, etc.
+npm run make    # Full clean build
+```
+
 ## Try it on our website
 
 1. Go to [ChartDB.io](https://chartdb.io?ref=github_readme_2)
