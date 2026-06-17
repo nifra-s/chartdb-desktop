@@ -1,6 +1,6 @@
-/* eslint-disable @typescript-eslint/no-require-imports, no-undef */
+/* eslint-disable @typescript-eslint/no-require-imports */
 const { contextBridge, ipcRenderer } = require('electron');
-/* eslint-enable @typescript-eslint/no-require-imports, no-undef */
+/* eslint-enable @typescript-eslint/no-require-imports */
 
 contextBridge.exposeInMainWorld('electronAPI', {
     minimizeWindow: () => ipcRenderer.send('window-minimize'),

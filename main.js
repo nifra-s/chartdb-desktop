@@ -1,16 +1,18 @@
-/* eslint-env node */
-/* eslint-disable no-undef */
-
 import { app, BrowserWindow, ipcMain } from 'electron';
 import electronServe from 'electron-serve';
 import path from 'path';
 import { fileURLToPath } from 'url';
+// 1. IMPORT SQUIRREL INSTEAD OF USING REQUIRE
+import squirrelStartup from 'electron-squirrel-startup';
+
+// 2. IMPORT DIRNAME FROM PATH
+import { dirname } from 'path';
 
 let win;
 
 // Necesario para __dirname en ESM
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = dirname(__filename);
 
 // Configuramos electron-serve para que sirva la carpeta 'dist'
 const loadURL = electronServe({ directory: path.join(__dirname, 'dist') });
@@ -19,11 +21,10 @@ async function createWindow() {
     win = new BrowserWindow({
         width: 1024,
         height: 768,
-
-        minWidth: 900, // Prevents the window from being squeezed narrower than 800px
-        minHeight: 600, // Prevents the window from being squeezed shorter than 600px
-        frame: false, // 1. Destroys the default OS bar, name, and icon
-        titleBarStyle: 'hidden', // Helps maintain window behaviors across platforms
+        minWidth: 900,
+        minHeight: 600,
+        frame: false,
+        titleBarStyle: 'hidden',
         icon: path.join(__dirname, 'src/assets/logo-2.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
@@ -54,6 +55,9 @@ ipcMain.on('window-maximize', () => {
 ipcMain.on('window-close', () => {
     win.close();
 });
+
+// 3. USE THE IMPORTED SQUIRREL VARIABLE HERE
+if (squirrelStartup) app.quit();
 
 app.whenReady().then(() => {
     createWindow();
