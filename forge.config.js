@@ -66,6 +66,19 @@ export default {
             platforms: ['win32'],
         },
     ],
+    publishers: [
+        {
+            name: '@electron-forge/publisher-github',
+            config: {
+                repository: {
+                    owner: 'nifra-s',
+                    name: 'chartdb-desktop',
+                },
+                draft: false,
+                prerelease: false,
+            },
+        },
+    ],
     plugins: [
         {
             name: '@electron-forge/plugin-auto-unpack-natives',
